@@ -63,16 +63,18 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Contact> contacts = new ArrayList<>();
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roleList = new ArrayList<>();
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    private List<String> roleList=new ArrayList<>();
+    private String role ;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // list of roles[USER,ADMIN]
         // Collection of SimpGrantedAuthority[roles{ADMIN,USER}]
-        Collection<SimpleGrantedAuthority> roles = roleList.stream().map(role -> new SimpleGrantedAuthority(role))
-                .collect(Collectors.toList());
-        return roles;
+//        Collection<SimpleGrantedAuthority> roles = roleList.stream().map(role -> new SimpleGrantedAuthority(role))
+//                .collect(Collectors.toList());
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role);
+        return List.of(simpleGrantedAuthority);
     }
 
     // for this project:

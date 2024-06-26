@@ -14,7 +14,7 @@
 	<name>scm2.0</name>
 	<description>Project for storing and managing contacts on cloud</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>18</java.version>
 	</properties>
 	<dependencies>
 

@@ -23,6 +23,10 @@
 
           <div class="contacts_container p-5">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+              <div data-th-replace="~{message :: messagebox}">
+
+              </div>
               <form
                 data-th-object="${contactSearchForm}"
                 action=""
@@ -138,6 +142,10 @@
                           data-th-if="*{favorite}"
                           class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"
                         ></div>
+                        <div
+                                data-th-unless="*{favorite}"
+                                class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"
+                        ></div>
 
                         <a data-th-href="@{*{websiteLink}}" target="_blank"
                           ><i class="fa-solid w-6 h-6 fa-link"></i
@@ -149,11 +157,11 @@
                     </td>
                     <td class="px-6 py-4">
                       <div>
-                        <a href="">
+                        <a th:onclick="deleteContact([[${c.id}]])" style="cursor: pointer">
                           <i class="fa-solid w-6 h-6 fa-trash"></i>
                         </a>
-                        <a href=""> <i class="fa-solid w-6 h-6 fa-pen"></i></a>
-                        <a href=""> <i class="fa-solid fa-eye"></i></a>
+                        <a  data-th-href="@{'/user/contacts/update-view/'+*{id}}"> <i class="fa-solid w-6 h-6 fa-pen"></i></a>
+                        <button  th:onclick="loadContactData([[${c.id}]])"> <i class="fa-solid fa-eye"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -208,9 +216,15 @@
             </div>
           </div>
         </div>
+        <div data-th-replace="~{user/contact_model :: contacts }"></div>
+
       </div>
+
+
+
     </div>
 
+    <script data-th-src="@{'/js/contacts.js'}"></script>
     <script>
       console.log("this is profile page");
     </script>
