@@ -1,7 +1,6 @@
 package com.scm.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import com.scm.services.UserService;
 @RequestMapping("/user")
 public class UserController {
 
-    private Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -23,7 +21,6 @@ public class UserController {
 
     @RequestMapping(value = "/dashboard")
     public String userDashboard() {
-        System.out.println("User dashboard");
         return "user/dashboard";
     }
 
@@ -35,12 +32,6 @@ public class UserController {
         return "user/profile";
     }
 
-    // user add contacts page
 
-    // user view contacts
-
-    // user edit contact
-
-    // user delete contact
 
 }
