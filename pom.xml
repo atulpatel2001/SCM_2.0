@@ -15,6 +15,8 @@
 	<description>Project for storing and managing contacts on cloud</description>
 	<properties>
 		<java.version>18</java.version>
+		<DockerHubUsername>atulpatel2001</DockerHubUsername>
+		<jib.version>2.8.0</jib.version>
 	</properties>
 	<dependencies>
 
@@ -96,6 +98,31 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.0</version>
+
+				<configuration>
+
+					<from>
+						<image>openjdk:${java.version}-slim</image>
+					</from>
+					<to>
+						<image>${DockerHubUsername}/scm-2.0</image>
+						<tags>v1</tags>
+					</to>
+
+
+					<!--					<container>-->
+					<!--						<environment>-->
+					<!--							<ENV_VAR>VALUE</ENV_VAR>-->
+					<!--						</environment>-->
+					<!--					</container>-->
 				</configuration>
 			</plugin>
 		</plugins>
