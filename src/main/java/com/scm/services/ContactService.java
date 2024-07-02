@@ -39,4 +39,6 @@ public interface ContactService {
 
     Page<Contact> getByUser(User user, int page, int size, String sortField, String sortDirection);
 
+    Long countContacts();
+
 }

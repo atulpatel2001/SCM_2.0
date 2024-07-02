@@ -105,4 +105,9 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public Long countAllUser() {
+        return this.userRepo.count();
+    }
+
 }

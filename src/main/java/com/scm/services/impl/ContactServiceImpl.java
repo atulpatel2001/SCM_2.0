@@ -86,6 +86,11 @@ public class ContactServiceImpl implements ContactService
     }
 
     @Override
+    public Long countContacts() {
+        return this.contactRepo.count();
+    }
+
+    @Override
     public Page<Contact> searchByName(String nameKeyword, int size, int page, String sortBy, String order, User user) {
 
         Sort sort = order.equals("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();

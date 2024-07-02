@@ -1,0 +1,66 @@
+<nav th:fragment="navbar" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg transition-transform transform" :class="{'-translate-x-full': isClosed, 'translate-x-0': !isClosed}">
+  <div class="p-4 flex items-center">
+    <div class="w-12 h-12 rounded-full overflow-hidden">
+      <img th:src="@{'/user_image/'+${user.profileUrl}}" alt="">
+    </div>
+    <span class="ml-4 text-xl font-semibold" th:text="${user.name}">Admin</span>
+  </div>
+  <ul class="mt-8">
+    <li>
+      <a th:href="@{/admin/index}" class="flex items-center py-3 px-6 text-gray-700 hover:bg-gray-200">
+        <i class="uil uil-estate mr-4 text-lg"></i>
+        <span class="font-medium">Dashboard</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="flex items-center py-3 px-6 text-gray-700 hover:bg-gray-200">
+        <i class="uil uil-files-landscapes mr-4 text-lg"></i>
+        <span class="font-medium">Content</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="flex items-center py-3 px-6 text-gray-700 hover:bg-gray-200">
+        <i class="uil uil-chart mr-4 text-lg"></i>
+        <span class="font-medium">Analytics</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="flex items-center py-3 px-6 text-gray-700 hover:bg-gray-200">
+        <i class="uil uil-thumbs-up mr-4 text-lg"></i>
+        <span class="font-medium">Like</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="flex items-center py-3 px-6 text-gray-700 hover:bg-gray-200">
+        <i class="uil uil-comments mr-4 text-lg"></i>
+        <span class="font-medium">Comment</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="flex items-center py-3 px-6 text-gray-700 hover:bg-gray-200">
+        <i class="uil uil-share mr-4 text-lg"></i>
+        <span class="font-medium">Share</span>
+      </a>
+    </li>
+  </ul>
+  <ul class="mt-auto">
+    <li>
+      <a th:href="@{/logout}" class="flex items-center py-3 px-6 text-gray-700 hover:bg-gray-200">
+        <i class="uil uil-signout mr-4 text-lg"></i>
+        <span class="font-medium">Logout</span>
+      </a>
+    </li>
+    <li class="flex items-center py-3 px-6 text-gray-700 hover:bg-gray-200 cursor-pointer">
+      <i class="uil uil-moon mr-4 text-lg"></i>
+      <span class="font-medium">Dark Mode</span>
+      <div class="ml-auto relative">
+        <input type="checkbox" class="hidden" id="dark-mode-toggle" @change="toggleDarkMode">
+        <label for="dark-mode-toggle" class="flex items-center cursor-pointer">
+                    <span class="w-10 h-6 flex items-center bg-gray-300 rounded-full p-1 duration-300 ease-in-out">
+                        <span class="bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ease-in-out" :class="{'translate-x-4': darkMode, 'translate-x-0': !darkMode}"></span>
+                    </span>
+        </label>
+      </div>
+    </li>
+  </ul>
+</nav>

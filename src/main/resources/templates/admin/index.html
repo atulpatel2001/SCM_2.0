@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/base :: parent(~{::#content})}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body class="bg-gray-100">
+<section class="p-4">
+  <div class="top flex items-center justify-between mb-4">
+    <i class="fa fa-bars sidebar-toggle"></i>
+    <div class="search-box flex items-center border border-gray-300 rounded">
+      <i class="uil uil-search px-2"></i>
+      <input type="text" placeholder="Search here..." class="p-2 w-full">
+    </div>
+  </div>
+  <div class="dash-content">
+    <div class="overview">
+      <div class="title flex items-center mb-4">
+        <i class="uil uil-tachometer-fast-alt text-2xl"></i>
+        <span class="text-2xl font-semibold ml-2">Dashboard</span>
+      </div>
+      <div class="boxes grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+        <div class="box box1 p-4 bg-white shadow rounded flex items-center">
+          <i class="uil uil-user text-blue-500 text-4xl"></i>
+          <div class="ml-4">
+            <span class="text-sm">Total User</span>
+            <span class="number text-xl font-semibold" th:text="${numberOfUser}">50,120</span>
+          </div>
+        </div>
+        <div class="box box2 p-4 bg-white shadow rounded flex items-center">
+          <i class="fa fa-address-card text-green-500 text-4xl"></i>
+          <div class="ml-4">
+            <span class="text-sm">Total Contact</span>
+            <span class="number text-xl font-semibold" th:text="${numberOfContact}">20,120</span>
+          </div>
+        </div>
+        <div class="box box3 p-4 bg-white shadow rounded flex items-center">
+          <i class="fas fa-user-friends text-purple-500 text-4xl"></i>
+          <div class="ml-4">
+            <span class="text-sm">Total Member</span>
+            <span class="number text-xl font-semibold" th:text="${numberOfContact+numberOfUser}">10,120</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="activity">
+      <div class="title flex items-center mb-4">
+        <i class="uil uil-clock-three text-2xl"></i>
+        <span class="text-2xl font-semibold ml-2">Recent Activity</span>
+      </div>
+      <table class="min-w-full bg-white">
+        <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="py-2">ID</th>
+          <th class="py-2">NAME</th>
+          <th class="py-2">ISACTIVE</th>
+          <th class="py-2">JOINDATE</th>
+          <th class="py-2">ROLE</th>
+        </tr>
+        </thead>
+<!--        <tbody th:each="user:${users}">-->
+<!--        <tr class="bg-gray-100 border-b">-->
+<!--          <th class="py-2" scope="row" th:text="${'USER'+user.id}"></th>-->
+<!--          <td class="py-2" th:text="${user.name}">Mark</td>-->
+<!--          <td class="py-2" th:text="${user.isActive}">Otto</td>-->
+<!--          <td class="py-2" th:text="${user.joinDate}">@mdo</td>-->
+<!--          <td class="py-2" th:text="${user.role}">@mdo</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+      </table>
+    </div>
+  </div>
+</section>
+</body>
+</html>
