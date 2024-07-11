@@ -1,5 +1,6 @@
 package com.scm.controllers;
 
+import com.scm.helpers.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -121,17 +122,13 @@ public class PageController {
         user.setPassword(userForm.getPassword());
         user.setAbout(userForm.getAbout());
         user.setPhoneNumber(userForm.getPhoneNumber());
+        user.setRole(AppConstants.ROLE_USER);
         user.setProfilePic(
                 "https://www.learncodewithdurgesh.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdurgesh_sir.35c6cb78.webp&w=1920&q=75");
 
         User savedUser = userService.saveUser(user);
 
         System.out.println("user saved :");
-
-        // message = "Registration Successful"
-
-        // add the message:
-
         Message message = Message.builder().content("Registration Successful").type(MessageType.green).build();
 
         session.setAttribute("message", message);

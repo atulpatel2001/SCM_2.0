@@ -1,5 +1,6 @@
 package com.scm.services.impl;
 
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -7,6 +8,8 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,10 +39,7 @@ public class UserServiceImpl implements UserService {
         // user.setPassword(userId);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // set the user role
-
-//        user.setRoleList(List.of(AppConstants.ROLE_USER));
-          user.setRole(AppConstants.ROLE_USER);
+//          user.setRole(AppConstants.ROLE_USER);
         logger.info(user.getProvider().toString());
 
         return userRepo.save(user);
@@ -95,8 +95,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepo.findAll();
+    public Page<User> getAllUsers(Pageable pageable) {
+        return userRepo.findAll(pageable);
     }
 
     @Override

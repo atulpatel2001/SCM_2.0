@@ -6,6 +6,7 @@ import com.scm.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -30,16 +31,15 @@ public class Application implements CommandLineRunner {
 		user.setUserId(UUID.randomUUID().toString());
 		user.setName("Atul Patel");
 		user.setPassword("7096773572");
+		user.setEmail("admin2001@gmail.com");
 		user.setPhoneVerified(true);
 		user.setRole(AppConstants.ROLE_ADMIN);
-		user.setEmail("admin2001@gmail.com");
-		user.setEmailVerified(true);
+ 		user.setEmailVerified(true);
 		user.setEnabled(true);
 		user.setPassword(this.passwordEncoder.encode("atul@2001"));
 		boolean userExistByEmail = this.userService.isUserExistByEmail("admin2001@gmail.com");
 		if (userExistByEmail){
 			System.out.println("Admin Already register");
-
 		}
 		else {
 			this.userService.saveUser(user);

@@ -1,5 +1,7 @@
 package com.scm.services.impl;
 
+import com.scm.config.CustomUserDetail;
+import com.scm.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,10 +18,9 @@ public class SecurityCustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // apne user ko load karana hai
-        return userRepo.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email : " + username));
-
+        User user = userRepo.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
+        return new CustomUserDetail(user);
     }
 
 }

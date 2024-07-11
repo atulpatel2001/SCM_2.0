@@ -5,15 +5,21 @@ import com.scm.helpers.Helper;
 import com.scm.services.ContactService;
 import com.scm.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@Controller("/admin")
+@Controller
+@RequestMapping("/admin")
 public class AdminController {
 
     @Autowired
@@ -34,20 +40,23 @@ public class AdminController {
     }
     @GetMapping("/index")
     public String adminDashboard(Model model) {
-        model.addAttribute("title", "Admin-Dashboard| Samrt-Contact-Manager");
+        model.addAttribute("title", "Admin-Dashboard| Smart-Contact-Manager");
 
         long countUser = this.userService.countAllUser();
         model.addAttribute("numberOfUser",countUser);
         long countContact = this.contactService.countContacts();
         model.addAttribute("numberOfContact",countContact);
-        return "admin/admin_dashboard";
+        return "admin/index";
     }
 
-    @GetMapping("/show-users")
-    public String showUsers(Model model){
-        List<User> users = this.userService.getAllUsers();
-        model.addAttribute("users",users);
-        return "admin/show-users";
+    @GetMapping("/users/{page}")
+    public String showUsers(@PathVariable("page")int page, Model model){
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<User> pageResult = this.userService.getAllUsers(pageable);
+        model.addAttribute("users", pageResult.getContent());
+        model.addAttribute("currentPage", pageResult.getNumber()); // Page number is zero-based, so we add 1
+        model.addAttribute("totalPages", pageResult.getTotalPages());
+        return "user/users";
     }
 
 

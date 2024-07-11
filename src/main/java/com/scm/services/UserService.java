@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.scm.entities.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface UserService {
 
@@ -19,7 +21,7 @@ public interface UserService {
 
     boolean isUserExistByEmail(String email);
 
-    List<User> getAllUsers();
+    Page<User> getAllUsers(Pageable pageable);
 
     User getUserByEmail(String email);
 

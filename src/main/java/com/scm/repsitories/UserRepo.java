@@ -1,7 +1,10 @@
 package com.scm.repsitories;
 
+import java.util.List;
 import java.util.Optional;
 
+import com.scm.entities.Contact;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,5 +19,7 @@ public interface UserRepo extends JpaRepository<User, String> {
     Optional<User> findByEmail(String email);
 
     Optional<User> findByEmailAndPassword(String email, String password);
+
+
 
 }
