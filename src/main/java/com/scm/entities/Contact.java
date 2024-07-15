@@ -46,3 +46,6 @@ public class Contact {
     private List<SocialLink> links = new ArrayList<>();
 
 }
+
+
+

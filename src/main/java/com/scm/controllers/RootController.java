@@ -36,4 +36,6 @@ public class RootController {
         model.addAttribute("loggedInUser", user);
 
     }
+
+
 }

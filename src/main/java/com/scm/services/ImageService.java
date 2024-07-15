@@ -9,3 +9,4 @@ public interface ImageService {
     String getUrlFromPublicId(String publicId);
 
 }
+

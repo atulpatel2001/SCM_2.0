@@ -54,6 +54,8 @@ public class SecurityConfig {
             oauth.successHandler(handler);
         });
 
+
+
         httpSecurity.logout(logoutForm -> {
             logoutForm.logoutUrl("/do-logout");
             logoutForm.logoutSuccessUrl("/login?logout=true");

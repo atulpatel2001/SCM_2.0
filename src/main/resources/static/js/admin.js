@@ -12,3 +12,4 @@ document
     };
     reader.readAsDataURL(file);
   });
+

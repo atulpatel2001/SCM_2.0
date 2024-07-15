@@ -9,6 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.scm</groupId>
+
     <artifactId>scm2.0</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>scm2.0</name>

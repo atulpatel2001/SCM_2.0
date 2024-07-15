@@ -123,6 +123,7 @@ public class ContactController {
         return "user/contacts";
     }
 
+
     // search handler
 
     @RequestMapping("/search")

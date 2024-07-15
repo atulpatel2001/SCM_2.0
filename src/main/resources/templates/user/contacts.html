@@ -160,6 +160,7 @@
                         <a th:onclick="deleteContact([[${c.id}]])" style="cursor: pointer">
                           <i class="fa-solid w-6 h-6 fa-trash"></i>
                         </a>
+
                         <a  data-th-href="@{'/user/contacts/update-view/'+*{id}}"> <i class="fa-solid w-6 h-6 fa-pen"></i></a>
                         <button  th:onclick="loadContactData([[${c.id}]])"> <i class="fa-solid fa-eye"></i></button>
                       </div>
