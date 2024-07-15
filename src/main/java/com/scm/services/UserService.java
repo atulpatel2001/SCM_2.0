@@ -22,6 +22,7 @@ public interface UserService {
     boolean isUserExistByEmail(String email);
 
     Page<User> getAllUsers(Pageable pageable);
+    List<User> findAllUsers();
 
     User getUserByEmail(String email);
 

@@ -49,15 +49,18 @@ public class AdminController {
         return "admin/index";
     }
 
-    @GetMapping("/users/{page}")
-    public String showUsers(@PathVariable("page")int page, Model model){
-        Pageable pageable = PageRequest.of(page, 5);
-        Page<User> pageResult = this.userService.getAllUsers(pageable);
-        model.addAttribute("users", pageResult.getContent());
-        model.addAttribute("currentPage", pageResult.getNumber()); // Page number is zero-based, so we add 1
-        model.addAttribute("totalPages", pageResult.getTotalPages());
+    @GetMapping("/users")
+    public String showUsers(Model model){
+        //Pageable pageable = PageRequest.of(page, 5);
+        List<User> users = this.userService.findAllUsers();
+        model.addAttribute("users", users);
+//        model.addAttribute("currentPage", pageResult.getNumber()); // Page number is zero-based, so we add 1
+//        model.addAttribute("totalPages", pageResult.getTotalPages());
         return "user/users";
     }
+
+
+
 
 
 }

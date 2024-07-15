@@ -40,7 +40,8 @@ function  closeContactModal(){
   try{
       const  data =await (await fetch(`${baseUrl}/api/contacts/${id}`))
           .json();
-
+       debugger
+      console.log(data)
       document.querySelector('#contact-name').innerHTML=data.name;
       document.querySelector('#contact-email').innerHTML=data.email;
       document.querySelector('#contact-name2').innerHTML=data.name;
