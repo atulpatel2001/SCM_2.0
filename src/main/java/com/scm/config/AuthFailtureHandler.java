@@ -21,14 +21,13 @@ public class AuthFailtureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
-
         if (exception instanceof DisabledException) {
 
             // user is disabled
             HttpSession session = request.getSession();
             session.setAttribute("message",
                     Message.builder()
-                            .content("User is disabled, Email with  varification link is sent on your email id !!")
+                            .content("User is disabled, Email with  verification link is sent on your email id !!")
                             .type(MessageType.red).build());
 
             response.sendRedirect("/login");
@@ -37,7 +36,6 @@ public class AuthFailtureHandler implements AuthenticationFailureHandler {
             // request.getRequestDispatcher("/login").forward(request, response);
 
         }
-
     }
 
 }

@@ -2,6 +2,7 @@ package com.scm;
 
 import com.scm.entities.User;
 import com.scm.helpers.AppConstants;
+import com.scm.repsitories.UserRepo;
 import com.scm.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -18,6 +19,9 @@ public class Application implements CommandLineRunner {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private UserRepo userRepo;
+
     @Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -30,19 +34,22 @@ public class Application implements CommandLineRunner {
 		User user = new User();
 		user.setUserId(UUID.randomUUID().toString());
 		user.setName("Atul Patel");
-		user.setPassword("7096773572");
-		user.setEmail("admin2001@gmail.com");
+//		user.setPassword("atul@2001");
+		user.setEmail("ajpatel7096@gmail.com");
+		user.setPhoneNumber("7096773572");
 		user.setPhoneVerified(true);
 		user.setRole(AppConstants.ROLE_ADMIN);
  		user.setEmailVerified(true);
 		user.setEnabled(true);
 		user.setPassword(this.passwordEncoder.encode("atul@2001"));
-		boolean userExistByEmail = this.userService.isUserExistByEmail("admin2001@gmail.com");
+		user.setAbout("Admin");
+		user.setProfilePic("http://res.cloudinary.com/dnhniwrqh/image/upload/c_fill,h_500,w_500/9cfcf9d1-0438-4d81-988b-b49590dcc249");
+		boolean userExistByEmail = this.userService.isUserExistByEmail("ajpatel7096@gmail.com");
 		if (userExistByEmail){
 			System.out.println("Admin Already register");
 		}
 		else {
-			this.userService.saveUser(user);
+			this.userRepo.save(user);
 		}
 	}
 }

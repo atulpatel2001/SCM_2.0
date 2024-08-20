@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
         user.setEmailToken(emailToken);
         User savedUser = userRepo.save(user);
         String emailLink = Helper.getLinkForEmailVerificatiton(emailToken);
+        user.setProfilePic("http://res.cloudinary.com/dnhniwrqh/image/upload/c_fill,h_500,w_500/9cfcf9d1-0438-4d81-988b-b49590dcc249");
         emailService.sendEmail(savedUser.getEmail(), "Verify Account : Smart  Contact Manager", emailLink);
         return savedUser;
 
@@ -63,7 +64,6 @@ public class UserServiceImpl implements UserService {
 
         User user2 = userRepo.findById(user.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        // update karenge user2 from user
         user2.setName(user.getName());
         user2.setEmail(user.getEmail());
         user2.setPassword(user.getPassword());
