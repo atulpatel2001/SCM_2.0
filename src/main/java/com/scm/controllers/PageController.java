@@ -97,6 +97,7 @@ public class PageController {
         user.setAbout(userForm.getAbout());
         user.setPhoneNumber(userForm.getPhoneNumber());
         user.setRole(AppConstants.ROLE_USER);
+        user.setEnabled(false);
         user.setProfilePic("http://res.cloudinary.com/dnhniwrqh/image/upload/c_fill,h_500,w_500/f2780214-8eae-4da5-b931-055ec9fb271a");
 
         User savedUser = userService.saveUser(user);

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.scm.helpers.Helper;
+import com.scm.services.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    @Autowired
+    private EmailService emailService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
@@ -39,10 +42,14 @@ public class UserServiceImpl implements UserService {
         // user.setPassword(userId);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-//          user.setRole(AppConstants.ROLE_USER);
+        user.setRole(AppConstants.ROLE_USER);
         logger.info(user.getProvider().toString());
-
-        return userRepo.save(user);
+        String emailToken = UUID.randomUUID().toString();
+        user.setEmailToken(emailToken);
+        User savedUser = userRepo.save(user);
+        String emailLink = Helper.getLinkForEmailVerificatiton(emailToken);
+        emailService.sendEmail(savedUser.getEmail(), "Verify Account : Smart  Contact Manager", emailLink);
+        return savedUser;
 
     }
 

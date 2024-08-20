@@ -48,7 +48,7 @@
                   </select>
                 </div>
                 <label for="table-search" class="sr-only">Search</label>
-                <div class="relative">
+                <div class="relative" id="table-search">
                   <div
                     class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none"
                   >
@@ -78,7 +78,9 @@
                 </div>
                 <button
                   type="submit"
+                  id="search-button"
                   class="px-3 py-2 bg-gray-800 text-white rounded"
+                  disabled
                 >
                   Search
                 </button>
@@ -217,6 +219,22 @@
 
 
     </div>
+
+    <script>
+      document.getElementById('countries_disabled').addEventListener('change', function() {
+        console.log("change field")
+        const searchButton = document.getElementById('search-button');
+        if (this.value) {
+          console.log("disabled --- false")
+          searchButton.disabled = false;
+        } else {
+          console.log("disabled --- true")
+          searchButton.disabled = true;
+        }
+      });
+    </script>
+
+
     <script data-th-src="@{'/js/contacts.js'}"></script>
     <script>
       console.log("this is profile page");

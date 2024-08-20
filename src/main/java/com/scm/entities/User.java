@@ -38,7 +38,7 @@ public class User{
     private String name;
     @Column(unique = true, nullable = false)
     private String email;
-
+  //  @Getter(AccessLevel.NONE)
     private String password;
     @Column(length = 1000)
     private String about;
@@ -47,6 +47,7 @@ public class User{
     private String phoneNumber;
 
 
+   // @Getter(value = AccessLevel.NONE)
     private boolean enabled = true;
 
     private boolean emailVerified = false;
@@ -63,7 +64,7 @@ public class User{
 
     private String role ;
 
-
+    private String emailToken;
 
 
 }
