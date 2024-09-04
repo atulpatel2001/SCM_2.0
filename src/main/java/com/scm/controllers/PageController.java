@@ -90,23 +90,28 @@ public class PageController {
         if (rBindingResult.hasErrors()) {
             return "register";
         }
-        User user = new User();
-        user.setName(userForm.getName());
-        user.setEmail(userForm.getEmail());
-        user.setPassword(userForm.getPassword());
-        user.setAbout(userForm.getAbout());
-        user.setPhoneNumber(userForm.getPhoneNumber());
-        user.setRole(AppConstants.ROLE_USER);
-        user.setEnabled(false);
-        user.setProfilePic("http://res.cloudinary.com/dnhniwrqh/image/upload/c_fill,h_500,w_500/f2780214-8eae-4da5-b931-055ec9fb271a");
+         User checkIsPresent = userService.getUserByEmail(userForm.getEmail());
+        if(checkIsPresent == null) {
+            User user = new User();
+            user.setName(userForm.getName());
+            user.setEmail(userForm.getEmail());
+            user.setPassword(userForm.getPassword());
+            user.setAbout(userForm.getAbout());
+            user.setPhoneNumber(userForm.getPhoneNumber());
+            user.setRole(AppConstants.ROLE_USER);
+            user.setEnabled(false);
+            user.setProfilePic("http://res.cloudinary.com/dnhniwrqh/image/upload/c_fill,h_500,w_500/9cfcf9d1-0438-4d81-988b-b49590dcc249");
 
-        User savedUser = userService.saveUser(user);
+            User savedUser = userService.saveUser(user);
+            Message message = Message.builder().content("Check Email, verify your account, and log in.").type(MessageType.green).build();
 
-        System.out.println("user saved :");
-        Message message = Message.builder().content("Registration Successful").type(MessageType.green).build();
+            session.setAttribute("message", message);
+        }
+        else {
+            Message message = Message.builder().content("Check Email,Email Is Already Register.").type(MessageType.yellow).build();
 
-        session.setAttribute("message", message);
-
+            session.setAttribute("message", message);
+        }
         // redirectto login page
         return "redirect:/register";
     }

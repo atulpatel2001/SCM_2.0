@@ -149,8 +149,12 @@
 
                                     <a data-th-href="@{'/user/contacts/update-view/'+*{id}}"> <i
                                             class="fa-solid w-6 h-6 fa-pen"></i></a>
+
                                     <button th:onclick="loadContactData([[${c.id}]])"><i class="fa-solid fa-eye"></i>
                                     </button>
+
+                                    <a style="margin-left:9px" data-th-href="@{'/api/chats/chat?chatWith='+${c.id}}"> <i
+                                            class=" fa-solid fa-brands w-6 h-6 fa-rocketchat"></i></a>
                                 </div>
                             </td>
                         </tr>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}"
+>
+<head>
+    <title data-th-text="${loggedInUser.name}+' |  SCM'">Chat With Friend</title>
+</head>
+<body>
+<div id="content">
+    <!-- sidebar -->
+
+    <!-- user is logged in : sidebar -->
+
+    <div th:if="${loggedInUser}">
+        <div data-th-replace="~{user/sidebar :: sidebar}"></div>
+    </div>
+
+    <div class="sm:pl-64 pt-20">
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <img class="w-10 h-10 rounded-full" data-th-src="@{*{chatWithUser.profilePic}}"/>
+            <span class="chat-user-name" th:text="${chatWithUser.name}" style="">Chat with Contact</span>
+        </div>
+
+        <div id="messages" class="chat-body">
+            <div th:each="message : ${messages}"
+                 class="message"
+                 th:classappend="${message.sender.userId} == ${currentUserId} ? 'sent' : 'received'">
+                <p>
+                <span th:text="${message.message}"></span>
+                <span th:text="${#temporals.format(message.timestamp, 'HH:mm a')}" class="time-stamp"></span>
+                <span th:if="${message.sender.userId} == ${currentUserId}">
+                <span th:if="${#strings.trim(message.status) == 'SENT'}" class="status">✓</span>
+                <span th:if="${#strings.trim(message.status) == 'DELIVERED'}" class="status">✓✓</span>
+                <span th:if="${#strings.trim(message.status) == 'READ'}" class="status" style="color: #29B6F6">✓✓</span>
+                </span>
+                </p>
+            </div>
+        <div class="chat-input">
+
+            <input  id="receiverId" style="display: none" th:value="${chatWith}">
+            <input  id="senderId" style="display: none" th:value="${currentUserId}">
+            <textarea class="input" id="messageInput" type="text" placeholder="Type a message" required rows="1"></textarea>
+            <button id="sendButton" type="button">Send</button>
+        </div>
+
+    </div>
+    </div>
+
+
+        <!--   <div class="chat-container">
+                 <div class="chat-header">
+                     <img class="w-10 h-10 rounded-full" data-th-src="@{*{chatWithUser.profilePic}}"/>
+                     <span class="chat-user-name" th:text="${chatWithUser.name}">Chat with Contact</span>
+                 </div>
+
+                 <div id="messages" class="chat-body">
+                     <div th:each="entry : ${messages}">
+
+                      <div class="chat-date" th:text="${entry.key == T(java.time.LocalDate).now() ? 'Today' : #temporals.format(entry.key, 'MMMM d, yyyy')}"></div>
+
+
+                    <div th:each="message : ${entry.value}" class="message" th:classappend="${message.sender.userId} == ${currentUserId} ? 'sent' : 'received'">
+                        <p>
+                            <span th:text="${message.message}"></span>
+                            <span th:text="${#temporals.format(message.timestamp, 'HH:mm a')}" class="time-stamp"></span>
+                            <span th:if="${message.sender.userId} == ${currentUserId}">
+                            <span th:if="${#strings.trim(message.status) == 'SENT'}" class="status">✓</span>
+                            <span th:if="${#strings.trim(message.status) == 'DELIVERED'}" class="status">✓✓</span>
+                            <span th:if="${#strings.trim(message.status) == 'READ'}" class="status" style="color: #29B6F6">✓✓</span>
+                        </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <input id="receiverId" style="display: none" th:value="${chatWith}">
+                <input id="senderId" style="display: none" th:value="${currentUserId}">
+                <textarea class="input" id="messageInput" placeholder="Type a message" required rows="1"></textarea>
+                <button id="sendButton" type="button">Send</button>
+            </div>
+        </div> -->
+
+
+
+</div>
+</div>
+<script>
+    document.getElementById('messageInput').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            if (event.shiftKey) {
+                // Allow default behavior (new line)
+                return;
+            } else {
+                // Prevent the default action (new line) and send the message
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+    });
+</script>
+    <script>
+        let socket;
+        let receiverId = document.getElementById("receiverId").value;
+        let senderId = document.getElementById("senderId").value;
+
+        function initWebSocket() {
+            socket = new WebSocket('ws://localhost:8081/ws/chat');
+
+            socket.onopen = function() {
+                console.log('WebSocket connection established');
+            };
+
+            socket.onmessage = function(event) {
+                const message = JSON.parse(event.data);
+                displayMessage(message);
+            };
+
+            socket.onclose = function() {
+                console.log('WebSocket connection closed');
+            };
+
+            socket.onerror = function(error) {
+                console.error('WebSocket error:', error);
+            };
+        }
+
+        function sendMessage() {
+            const message = {
+                receiverId: receiverId,
+                senderId: senderId,
+                message: document.getElementById('messageInput').value,
+            };
+            socket.send(JSON.stringify(message));
+            document.getElementById('messageInput').value = '';
+        }
+
+        function displayMessage(message) {
+            const messageElement = document.createElement('div');
+            messageElement.className = message.senderId === senderId ? 'message sent' : 'message received';
+            messageElement.textContent = message.message;
+            const statusElement = document.createElement('span');
+            statusElement.className = 'status';
+            switch (message.status) {
+                case 'SENT':
+                    statusElement.textContent = '✓'; // Single tick
+                    break;
+                case 'DELIVERED':
+                    statusElement.textContent = '✓✓'; // Double tick
+                    break;
+                case 'READ':
+                    statusElement.textContent = '✓✓'; // Blue tick
+                    break;
+            }
+            messageElement.appendChild(statusElement);
+
+            document.getElementById('messages').appendChild(messageElement);
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            initWebSocket();
+            document.getElementById('sendButton').addEventListener('click', sendMessage);
+        });
+    </script>
+</body>
+</html>

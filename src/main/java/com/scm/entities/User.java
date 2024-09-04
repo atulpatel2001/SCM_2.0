@@ -62,9 +62,18 @@ public class User{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Contact> contacts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Chat> sentChats = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Chat> receivedChats = new ArrayList<>();
+
+
     private String role ;
 
     private String emailToken;
+
+
 
 
 }

@@ -39,7 +39,7 @@ public class AuthController {
                         .type(MessageType.green)
                         .content("You email is verified. Now you can login  ")
                         .build());
-                return "success_page";
+                return "redirect:/login";
             }
 
             session.setAttribute("message", Message.builder()

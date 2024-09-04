@@ -34,10 +34,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(authorize -> {
-            authorize.requestMatchers("/user/**").authenticated()
+            authorize.requestMatchers("/user/**","/api/**","/ws/**").authenticated()
                     .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/**").permitAll().
-                    anyRequest().authenticated();
+//                    .requestMatchers("/home","/about","/services","/contact","/login","/register").permitAll()
+                    .requestMatchers("/**").permitAll()
+                    .anyRequest().authenticated();
 
         });
 
