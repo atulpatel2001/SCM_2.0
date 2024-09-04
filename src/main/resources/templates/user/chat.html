@@ -38,7 +38,9 @@
                 </span>
                 </p>
             </div>
-        <div class="chat-input">
+
+
+            <div class="chat-input">
 
             <input  id="receiverId" style="display: none" th:value="${chatWith}">
             <input  id="senderId" style="display: none" th:value="${currentUserId}">
@@ -108,7 +110,8 @@
         let senderId = document.getElementById("senderId").value;
 
         function initWebSocket() {
-            socket = new WebSocket('ws://localhost:8081/ws/chat');
+            // socket = new WebSocket('ws://localhost:8081/ws/chat');
+            socket = new WebSocket('ws://scm-2-0-v1.onrender.com/ws/chat');
 
             socket.onopen = function() {
                 console.log('WebSocket connection established');

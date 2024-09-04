@@ -61,8 +61,8 @@
 }
 .chat-user-name {
   margin-left: 5px;
-  font-size: 16px; /* Adjust font size as needed */
-  font-weight: bold; /* Optional font weight */
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .chat-body {
@@ -73,9 +73,14 @@
   flex-direction: column;
 }
 .message {
-  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
   padding: 10px;
   border-radius: 10px;
+  max-width: 60%;
+  word-break: break-word;
+
 }
 .message.sent {
   background-color: #d4f1f4;
@@ -87,10 +92,12 @@
   align-self: flex-start;
 }
 .chat-input {
+  display: flex;
   padding: 10px;
   border-top: 1px solid #ddd;
   background-color: #f9f9f9;
-  display: flex;
+  position: sticky;
+  bottom: 0;
 }
 .chat-input .input {
   flex: 1;
