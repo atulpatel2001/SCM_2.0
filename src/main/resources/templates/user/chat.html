@@ -110,8 +110,8 @@
         let senderId = document.getElementById("senderId").value;
 
         function initWebSocket() {
-            // socket = new WebSocket('ws://localhost:8081/ws/chat');
-            socket = new WebSocket('wss://scm-2-0-v1.onrender.com/ws/chat');
+            socket = new WebSocket('ws://localhost:8081/ws/chat');
+            // socket = new WebSocket('wss://scm-2-0-v1.onrender.com/ws/chat');
 
             socket.onopen = function() {
                 console.log('WebSocket connection established');
