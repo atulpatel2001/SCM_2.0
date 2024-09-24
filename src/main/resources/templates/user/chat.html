@@ -143,25 +143,42 @@
 
         function displayMessage(message) {
             const messageElement = document.createElement('div');
-            messageElement.className = message.senderId === senderId ? 'message sent' : 'message received';
-            messageElement.textContent = message.message;
-            const statusElement = document.createElement('span');
-            statusElement.className = 'status';
-            switch (message.status) {
-                case 'SENT':
-                    statusElement.textContent = '✓'; // Single tick
-                    break;
-                case 'DELIVERED':
-                    statusElement.textContent = '✓✓'; // Double tick
-                    break;
-                case 'READ':
-                    statusElement.textContent = '✓✓'; // Blue tick
-                    break;
-            }
-            messageElement.appendChild(statusElement);
 
+            // Determine whether the message is sent or received
+            const isSentByUser = message.senderId === senderId;
+            messageElement.className = isSentByUser ? 'message sent' : 'message received';
+
+            // Add the message text
+            messageElement.textContent = message.message;
+
+            // If the message was sent by the user, append the status element
+            if (isSentByUser) {
+                const statusElement = document.createElement('span');
+                statusElement.className = 'status';
+
+                // Update status based on the message's status
+                switch (message.status) {
+                    case 'SENT':
+                        statusElement.textContent = '✓'; // Single tick for sent
+                        break;
+                    case 'DELIVERED':
+                        statusElement.textContent = '✓✓'; // Double tick for delivered
+                        break;
+                    case 'READ':
+                        statusElement.textContent = '✓✓'; // Double blue tick for read
+                        statusElement.style.color = 'blue'; // Optional: Set blue color for 'READ' status
+                        break;
+                }
+
+                // Append the status element only for sent messages
+                messageElement.appendChild(statusElement);
+            }
+
+            // Append the message element to the 'messages' container
             document.getElementById('messages').appendChild(messageElement);
         }
+
+
 
         document.addEventListener('DOMContentLoaded', (event) => {
             initWebSocket();
