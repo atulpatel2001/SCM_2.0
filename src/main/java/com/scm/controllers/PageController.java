@@ -35,9 +35,9 @@ public class PageController {
     public String home(Model model) {
         System.out.println("Home page handler");
         // sending data to view
-        model.addAttribute("name", "Substring Technologies");
-        model.addAttribute("youtubeChannel", "Learn Code With Durgesh");
-        model.addAttribute("githubRepo", "https://github.com/learncodewithdurgesh/");
+//        model.addAttribute("name", "Substring Technologies");
+//        model.addAttribute("youtubeChannel", "Learn Code With Durgesh");
+//        model.addAttribute("githubRepo", "https://github.com/learncodewithdurgesh/");
         return "home";
     }
 

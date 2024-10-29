@@ -37,7 +37,7 @@ public class AuthController {
                 userRepo.save(user);
                 session.setAttribute("message", Message.builder()
                         .type(MessageType.green)
-                        .content("You email is verified. Now you can login  ")
+                        .content("You email is verified. Now you can login")
                         .build());
                 return "redirect:/login";
             }

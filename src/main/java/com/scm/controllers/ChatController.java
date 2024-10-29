@@ -63,6 +63,7 @@ public class ChatController {
             model.addAttribute("chatWith", chatWithUser.getUserId());
             model.addAttribute("chatWithUser", chatWithUser); // Replace with actual contact name fetching logic
             model.addAttribute("currentUserId", user.getUserId());
+            model.addAttribute("contactImage",contact.getPicture());
             return "user/chat";
         }
     }

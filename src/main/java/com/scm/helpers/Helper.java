@@ -45,8 +45,8 @@ public class Helper {
 
     public static String getLinkForEmailVerificatiton(String emailToken) {
 
-//        String link = "http://localhost:8081/auth/verify-email?token=" + emailToken;
-        String link = "https://scm-2-0-v1.onrender.com/auth/verify-email?token=" + emailToken;
+        String link = "http://localhost:8081/auth/verify-email?token=" + emailToken;
+//        String link = "https://scm-2-0-v1.onrender.com/auth/verify-email?token=" + emailToken;
 
         return link;
 

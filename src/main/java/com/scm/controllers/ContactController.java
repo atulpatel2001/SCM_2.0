@@ -85,6 +85,9 @@ public class ContactController {
            contact.setPicture(fileURL);
            contact.setCloudinaryImagePublicId(filename);
        }
+       else {
+           contact.setPicture("http://res.cloudinary.com/dnhniwrqh/image/upload/c_fill,h_500,w_500/9cfcf9d1-0438-4d81-988b-b49590dcc249");
+       }
         contactService.save(contact);
         System.out.println(contactForm);
 
@@ -232,6 +235,9 @@ public class ContactController {
           String fileURL = imageService.uploadImage(contactForm.getContactImage(), filename);
           contact.setPicture(fileURL);
           contact.setCloudinaryImagePublicId(filename);
+      }
+      else {
+
       }
         contactService.update(contact);
         session.setAttribute("message",

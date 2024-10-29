@@ -20,7 +20,7 @@
 
     <div class="chat-container">
         <div class="chat-header">
-            <img class="w-10 h-10 rounded-full" data-th-src="@{*{chatWithUser.profilePic}}"/>
+            <img class="w-10 h-10 rounded-full" data-th-src="@{*{contactImage}}"/>
             <span class="chat-user-name" th:text="${chatWithUser.name}" style="">Chat with Contact</span>
         </div>
 
@@ -110,8 +110,8 @@
         let senderId = document.getElementById("senderId").value;
 
         function initWebSocket() {
-            // socket = new WebSocket('ws://localhost:8081/ws/chat');
-            socket = new WebSocket('wss://scm-2-0-v1.onrender.com/ws/chat');
+            socket = new WebSocket('ws://localhost:8081/ws/chat');
+            // socket = new WebSocket('wss://scm-2-0-v1.onrender.com/ws/chat');
 
             socket.onopen = function() {
                 console.log('WebSocket connection established');
@@ -141,15 +141,67 @@
             document.getElementById('messageInput').value = '';
         }
 
+        // function displayMessage(message) {
+        //     const messageElement = document.createElement('div');
+        //
+        //     // Determine whether the message is sent or received
+        //     const isSentByUser = message.senderId === senderId;
+        //     messageElement.className = isSentByUser ? 'message sent' : 'message received';
+        //
+        //     // Add the message text
+        //     messageElement.textContent = message.message;
+        //     const timeElement = document.createElement('span');
+        //     timeElement.className='time-stamp';
+        //     console.log(updateTime());
+        //     timeElement.textContent=updateTime();
+        //     messageElement.appendChild(timeElement)
+        //     // If the message was sent by the user, append the status element
+        //     if (isSentByUser) {
+        //         const statusElement = document.createElement('span');
+        //         statusElement.className = 'status';
+        //
+        //         // Update status based on the message's status
+        //         switch (message.status) {
+        //             case 'SENT':
+        //                 statusElement.textContent = '✓'; // Single tick for sent
+        //                 break;
+        //             case 'DELIVERED':
+        //                 statusElement.textContent = '✓✓'; // Double tick for delivered
+        //                 break;
+        //             case 'READ':
+        //                 statusElement.textContent = '✓✓'; // Double blue tick for read
+        //                 statusElement.style.color = 'blue'; // Optional: Set blue color for 'READ' status
+        //                 break;
+        //         }
+        //
+        //         // Append the status element only for sent messages
+        //         messageElement.appendChild(statusElement);
+        //     }
+        //
+        //     // Append the message element to the 'messages' container
+        //     document.getElementById('messages').appendChild(messageElement);
+        // }
         function displayMessage(message) {
             const messageElement = document.createElement('div');
+            messageElement.className = 'message';
 
-            // Determine whether the message is sent or received
+            // Determine if message is sent by the current user and add class
             const isSentByUser = message.senderId === senderId;
-            messageElement.className = isSentByUser ? 'message sent' : 'message received';
+            messageElement.classList.add(isSentByUser ? 'sent' : 'received');
+
+            // Create the paragraph element to wrap message text, time, and status
+            const messageContent = document.createElement('p');
 
             // Add the message text
-            messageElement.textContent = message.message;
+            const textElement = document.createElement('span');
+            textElement.textContent = message.message;
+            messageContent.appendChild(textElement);
+
+            // Add the timestamp
+            const timeElement = document.createElement('span');
+            timeElement.className = 'time-stamp';
+            timeElement.textContent = updateTime();
+            messageContent.appendChild(timeElement);
 
             // If the message was sent by the user, append the status element
             if (isSentByUser) {
@@ -166,19 +218,31 @@
                         break;
                     case 'READ':
                         statusElement.textContent = '✓✓'; // Double blue tick for read
-                        statusElement.style.color = 'blue'; // Optional: Set blue color for 'READ' status
+                        statusElement.style.color = '#29B6F6'; // Set blue color for 'READ' status
                         break;
                 }
-
-                // Append the status element only for sent messages
-                messageElement.appendChild(statusElement);
+                messageContent.appendChild(statusElement);
             }
+
+            // Append the paragraph with message details to the main message element
+            messageElement.appendChild(messageContent);
 
             // Append the message element to the 'messages' container
             document.getElementById('messages').appendChild(messageElement);
         }
 
 
+        function updateTime() {
+            const currentTime = new Date();
+
+            const hours = currentTime.getHours();
+            const minutes = currentTime.getMinutes();
+            const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+            const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+
+            return `${formattedHours}:${formattedMinutes} ${ampm}`;
+        }
 
         document.addEventListener('DOMContentLoaded', (event) => {
             initWebSocket();
