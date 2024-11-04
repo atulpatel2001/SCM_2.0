@@ -30,7 +30,8 @@
                  th:classappend="${message.sender.userId} == ${currentUserId} ? 'sent' : 'received'">
                 <p>
                 <span th:text="${message.message}"></span>
-                <span th:text="${#temporals.format(message.timestamp, 'HH:mm a')}" class="time-stamp"></span>
+<!--                <span th:text="${#temporals.format(message.timestamp, 'HH:mm a')}" class="time-stamp"></span>-->
+                    <span th:text="${#temporals.format(message.timestamp.atZone('Asia/Kolkata'), 'HH:mm a')}" class="time-stamp"></span>
                 <span th:if="${message.sender.userId} == ${currentUserId}">
                 <span th:if="${#strings.trim(message.status) == 'SENT'}" class="status">✓</span>
                 <span th:if="${#strings.trim(message.status) == 'DELIVERED'}" class="status">✓✓</span>
@@ -110,8 +111,8 @@
         let senderId = document.getElementById("senderId").value;
 
         function initWebSocket() {
-            // socket = new WebSocket('ws://localhost:8081/ws/chat');
-            socket = new WebSocket('wss://scm-2-0-v1.onrender.com/ws/chat');
+            socket = new WebSocket('ws://localhost:8081/ws/chat');
+            // socket = new WebSocket('wss://scm-2-0-v1.onrender.com/ws/chat');
 
             socket.onopen = function() {
                 console.log('WebSocket connection established');

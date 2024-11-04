@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 //@Service
 //public class ChatHelper {
@@ -71,7 +73,9 @@ public class ChatHelper {
             chat.setSender(senderUser.get());
             chat.setReceiver(receiverUser.get());
             chat.setMessage(message);
-            chat.setTimestamp(LocalDateTime.now());
+//            chat.setTimestamp(LocalDateTime.now());
+            chat.setTimestamp(ZonedDateTime.now(ZoneId.of("Asia/Kolkata")).toLocalDateTime());
+
             chat.setStatus(Chat.MessageStatus.SENT);
              Chat save = chatRepository.save(chat);// Save chat message to the database
 //            System.out.println(save.getMessage()+"========="+save.getStatus());

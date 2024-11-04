@@ -59,6 +59,10 @@ public class ChatController {
                  ) {
                 chatService.markMessageAsRead(c.getId());
             }
+            for (Chat m:messages
+                 ) {
+                System.out.println(m.getTimestamp());
+            }
             model.addAttribute("messages", messages);
             model.addAttribute("chatWith", chatWithUser.getUserId());
             model.addAttribute("chatWithUser", chatWithUser); // Replace with actual contact name fetching logic
