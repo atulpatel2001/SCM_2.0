@@ -1,6 +1,6 @@
 const viewContactModal=document.getElementById("view_contact_modal")
-const baseUrl='http://localhost:8081';
-// const baseUrl='https://scm-2-0-v1.onrender.com';
+// const baseUrl='http://localhost:8081';
+const baseUrl='https://scm-2-0-v1.onrender.com';
 
 const options = {
     placement: 'bottom-right',
