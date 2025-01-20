@@ -12,6 +12,7 @@ import com.scm.services.ContactService;
 import com.scm.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,9 @@ public class ChatController {
 
     @Autowired
     private ContactService contactService;
+
+    @Value("${wesocket.custom.path}")
+    private String socket_url;
     @GetMapping("/chat")
     public String chatWithContact(@RequestParam String chatWith, Model model, Authentication authentication, HttpSession session) {
         String username = Helper.getEmailOfLoggedInUser(authentication);
@@ -68,6 +72,7 @@ public class ChatController {
             model.addAttribute("chatWithUser", chatWithUser); // Replace with actual contact name fetching logic
             model.addAttribute("currentUserId", user.getUserId());
             model.addAttribute("contactImage",contact.getPicture());
+            model.addAttribute("socket_url",socket_url);
             return "user/chat";
         }
     }

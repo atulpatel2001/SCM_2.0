@@ -59,7 +59,7 @@ public class Application implements CommandLineRunner {
 		else {
 			this.userRepo.save(user);
 		}
-
+//
 //		this.userRepo.deleteAll();
 //		this.chatRepository.deleteAll();
 //		this.chatRepository.deleteAll();
