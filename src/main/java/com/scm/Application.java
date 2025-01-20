@@ -1,5 +1,6 @@
 package com.scm;
 
+import com.scm.entities.Chat;
 import com.scm.entities.User;
 import com.scm.helpers.AppConstants;
 import com.scm.repsitories.ChatRepository;
@@ -59,6 +60,11 @@ public class Application implements CommandLineRunner {
 		else {
 			this.userRepo.save(user);
 		}
+
+		/*for (Chat chat : this.chatRepository.findAll()) {
+			System.out.println(chat.getMessage()+" ==> "+chat.getSender().getName()+"==> "+chat.getReceiver().getName()+"==> "+chat.getSender().getUserId()+"==> "+chat.getReceiver().getUserId());
+		}
+*/
 //
 //		this.userRepo.deleteAll();
 //		this.chatRepository.deleteAll();
