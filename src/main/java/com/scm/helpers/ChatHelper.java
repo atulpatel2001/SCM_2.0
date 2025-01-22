@@ -85,12 +85,28 @@ public class ChatHelper {
         }
     }
 
+    public String getUserName(String user_id) {
+        Optional<User> receiverUser = userService.getUserById(user_id);
+
+        if (receiverUser.isPresent()) {
+            return receiverUser.get().getName();
+        } else {
+            return "Failed to find users.";
+        }
+    }
     // Static Method to Access Instance Method
     public static String sendMessage(String receiverId, String message, String senderId) {
         if (instance == null) {
             throw new IllegalStateException("ChatHelper instance not initialized");
         }
         return instance.sendMessageInstance(receiverId, message, senderId);
+    }
+
+    public static String getUserName_(String user_id) {
+        if (instance == null) {
+            throw new IllegalStateException("ChatHelper instance not initialized");
+        }
+        return instance.getUserName(user_id);
     }
 }
 

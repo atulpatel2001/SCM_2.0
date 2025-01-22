@@ -40,7 +40,7 @@
                 </p>
             </div>
         </div>
-
+        <div id="typingStatus" style="display:none; font-style: italic;color: forestgreen;font-weight: bold;margin: 10px">Typing...</div>
             <div class="chat-input">
 
             <input  id="receiverId" style="display: none" th:value="${chatWith}">
@@ -92,7 +92,7 @@
 
 </div>
 </div>
-
+<!--
     <script>
         let socket;
         let receiverId = document.getElementById("receiverId").value;
@@ -241,8 +241,198 @@
             initWebSocket();
             document.getElementById('sendButton').addEventListener('click', sendMessage);
         });
-    </script>
+    </script>-->
+<script>
+    let socket;
+    let receiverId = document.getElementById("receiverId").value;
+    let senderId = document.getElementById("senderId").value;
+    const socketUrl = document.getElementById("socket_url").value;
+    console.log(socketUrl);
 
+    function initWebSocket() {
+        socket = new WebSocket(socketUrl+ "?userId=" + senderId);
+
+        socket.onopen = function () {
+            console.log('WebSocket connection established');
+        };
+
+        socket.onmessage = function (event) {
+            const message = JSON.parse(event.data);
+            if (message.status === 'TYPING') {
+                if(message.senderId !== senderId) {
+                    if (message.message !== '') {
+                        console.log('yes--->'+message.message);
+                        document.getElementById('typingStatus').textContent = 'Typing...';
+                        document.getElementById("typingStatus").style.display = "inline";
+                    }else {
+                        console.log('None...')
+                        document.getElementById("typingStatus").style.display = "none";
+                    }
+                }
+            } else {
+                document.getElementById("typingStatus").style.display = "none";
+                displayMessage(message);
+            }
+        };
+
+        socket.onclose = function () {
+            console.log('WebSocket connection closed');
+        };
+
+        socket.onerror = function (error) {
+            console.error('WebSocket error:', error);
+        };
+    }
+
+    function sendMessage() {
+        const message = {
+            receiverId: receiverId,
+            senderId: senderId,
+            message: document.getElementById('messageInput').value,
+            status: 'SENT'
+        };
+        socket.send(JSON.stringify(message));
+        document.getElementById('messageInput').value = '';
+    }
+
+    function sendTypingStatus() {
+        const typingMessage = {
+            receiverId: receiverId,
+            senderId: senderId,
+            message: document.getElementById('messageInput').value,
+            status: 'TYPING'
+        };
+        socket.send(JSON.stringify(typingMessage));
+    }
+
+    function displayMessage(message) {
+        const messageElement = document.createElement('div');
+        messageElement.className = 'message';
+
+        // Determine if message is sent by the current user and add class
+        const isSentByUser = message.senderId === senderId;
+        messageElement.classList.add(isSentByUser ? 'sent' : 'received');
+
+        // Create the paragraph element to wrap message text, time, and status
+        const messageContent = document.createElement('p');
+
+        // Add the message text
+        const textElement = document.createElement('span');
+        textElement.textContent = message.message;
+        messageContent.appendChild(textElement);
+
+        // Add the timestamp
+        const timeElement = document.createElement('span');
+        timeElement.className = 'time-stamp';
+        timeElement.textContent = updateTime();
+        messageContent.appendChild(timeElement);
+
+        // If the message was sent by the user, append the status element
+        if (isSentByUser) {
+            const statusElement = document.createElement('span');
+            statusElement.className = 'status';
+
+            // Update status based on the message's status
+            switch (message.status) {
+                case 'SENT':
+                    statusElement.textContent = '✓'; // Single tick for sent
+                    break;
+                case 'DELIVERED':
+                    statusElement.textContent = '✓✓'; // Double tick for delivered
+                    break;
+                case 'READ':
+                    statusElement.textContent = '✓✓'; // Double blue tick for read
+                    statusElement.style.color = '#29B6F6'; // Set blue color for 'READ' status
+                    break;
+            }
+            messageContent.appendChild(statusElement);
+        }
+
+        messageElement.appendChild(messageContent);
+
+        // Append the message element to the 'messages' container
+        document.getElementById('messages').appendChild(messageElement);
+    }
+
+    function updateTime() {
+        const currentTime = new Date();
+
+        const hours = currentTime.getHours();
+        const minutes = currentTime.getMinutes();
+        const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+        const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+
+        return `${formattedHours}:${formattedMinutes} ${ampm}`;
+    }
+
+    /*document.addEventListener('DOMContentLoaded', (event) => {*/
+
+            /*initWebSocket();
+            document.getElementById('sendButton').addEventListener('click', sendMessage);
+
+            document.getElementById('messageInput').addEventListener('input', sendTypingStatus);
+        */
+    setInterval(
+        initWebSocket(),3000);
+        document.addEventListener('DOMContentLoaded', (event) => {
+    });
+        const messageInput = document.getElementById('messageInput');
+
+        const checkIfNotEmpty = () => {
+            console.log(messageInput.value+"---->message value")
+            return messageInput.value.trim() !== '' && messageInput.value.length > 0;
+        };
+
+        // Send message button event handler
+        document.getElementById('sendButton').addEventListener('click', () => {
+            if (checkIfNotEmpty()) {
+
+                sendMessage();
+            } else {
+                console.log('Input is empty, not sending message');
+            }
+        });
+
+        // Input event handler (fires only if input is not empty)
+        messageInput.addEventListener('input', () => {
+            document.getElementById("typingStatus").style.display = "none";
+            /*if (checkIfNotEmpty()) {*/
+                sendTypingStatus();
+           /* }else {
+                document.getElementById("typingStatus").style.display = "none";
+            }*/
+        });
+
+
+        messageInput.addEventListener('change', () => {
+            document.getElementById("typingStatus").style.display = "none";
+            /*if (checkIfNotEmpty()) {*/
+                sendTypingStatus();
+            /*}else {
+                document.getElementById("typingStatus").style.display = "none";
+            }*/
+        });
+
+        messageInput.addEventListener('blur', () => {
+            document.getElementById("typingStatus").style.display = "none";
+            /*if (checkIfNotEmpty()) {*/
+                sendTypingStatus();
+           /* }else {
+                document.getElementById("typingStatus").style.display = "none";
+            }*/
+
+        });
+
+    messageInput.addEventListener('focus', () => {
+       /* if (checkIfNotEmpty()) {*/
+            sendTypingStatus();
+       /* }else {
+            document.getElementById("typingStatus").style.display = "none";
+        }*/
+    });
+   /* });*/
+</script>
 <script>
     document.getElementById('messageInput').addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
